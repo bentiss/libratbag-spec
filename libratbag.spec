@@ -4,8 +4,8 @@
 # global gitversion e514da82
 
 Name:           libratbag
-Version:        0.3
-Release:        5%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
+Version:        0.4
+Release:        1%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 Summary:        Programmable input device library
 License:        MIT
 URL:            https://github.com/libratbag/libratbag
@@ -114,6 +114,9 @@ udevadm hwdb --update >/dev/null 2>&1 || :
 %{_libdir}/pkgconfig/liblur.pc
 
 %changelog
+* Mon Mar 14 2016 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.4-1
+- libratbag v0.4
+
 * Sat Mar 12 2016 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.3-5
 - Bump the specfile for the autobuilder tests
 
