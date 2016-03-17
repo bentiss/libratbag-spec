@@ -67,7 +67,7 @@ git am -p1 %{patches} < /dev/null
 
 %build
 autoreconf -v --install --force || exit 1
-%configure --disable-static --with-udev-dir=%{udevdir}
+%configure --disable-static --with-udev-base-dir=%{udevdir}
 make %{?_smp_mflags}
 
 %check
