@@ -4,7 +4,7 @@
 # global gitversion e514da82
 
 Name:           libratbag
-Version:        0.5
+Version:        0.6
 Release:        1%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 Summary:        Programmable input device library
 License:        MIT
@@ -114,6 +114,9 @@ udevadm hwdb --update >/dev/null 2>&1 || :
 %{_libdir}/pkgconfig/liblur.pc
 
 %changelog
+* Wed Mar 22 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-1
+- libratbag v0.6
+
 * Fri Sep 16 2016 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.5-1
 - libratbag v0.5
 
