@@ -5,7 +5,7 @@
 
 Name:           libratbag
 Version:        0.6
-Release:        4%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
+Release:        5%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 Summary:        Programmable input device library
 License:        MIT
 URL:            https://github.com/libratbag/libratbag
@@ -22,7 +22,7 @@ BuildRequires:  autoconf automake libtool pkgconfig
 BuildRequires:  libevdev-devel
 BuildRequires:  libudev-devel
 BuildRequires:  pkgconfig(udev)
-BuildRequires:  doxygen graphviz check
+BuildRequires:  doxygen graphviz
 
 %description
 libratbag is a library that allows to configure programmable
@@ -68,7 +68,7 @@ git am -p1 %{patches} < /dev/null
 
 %build
 autoreconf -v --install --force || exit 1
-%configure --disable-static --with-udev-base-dir=%{udevdir}
+%configure --disable-static --with-udev-base-dir=%{udevdir} --enable-tests=no
 make %{?_smp_mflags}
 
 %check
@@ -115,6 +115,9 @@ udevadm hwdb --update >/dev/null 2>&1 || :
 %{_libdir}/pkgconfig/liblur.pc
 
 %changelog
+* Tue Apr 04 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-5
+- disable the tests
+
 * Tue Apr 04 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-4
 - Add check too
 
