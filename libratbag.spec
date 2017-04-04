@@ -5,7 +5,7 @@
 
 Name:           libratbag
 Version:        0.6
-Release:        1%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
+Release:        2%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 Summary:        Programmable input device library
 License:        MIT
 URL:            https://github.com/libratbag/libratbag
@@ -22,6 +22,7 @@ BuildRequires:  autoconf automake libtool pkgconfig
 BuildRequires:  libevdev-devel
 BuildRequires:  libudev-devel
 BuildRequires:  pkgconfig(udev)
+BuildRequires:  doxygen
 
 %description
 libratbag is a library that allows to configure programmable
@@ -114,6 +115,9 @@ udevadm hwdb --update >/dev/null 2>&1 || :
 %{_libdir}/pkgconfig/liblur.pc
 
 %changelog
+* Tue Apr 04 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-2
+- Force doxygen as a requirement
+
 * Wed Mar 22 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-1
 - libratbag v0.6
 
