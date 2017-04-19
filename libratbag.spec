@@ -23,6 +23,7 @@ BuildRequires:  libevdev-devel
 BuildRequires:  libudev-devel
 BuildRequires:  pkgconfig(udev)
 BuildRequires:  doxygen graphviz
+BuildRequires:  check-devel
 
 %description
 libratbag is a library that allows to configure programmable
@@ -71,7 +72,7 @@ git commit --allow-empty -a -q -m "%{version} baseline."
 git am -p1 %{patches} < /dev/null
 
 %build
-%meson
+%meson -Dudev-dir=%{udevdir}
 %meson_build
 
 %check
@@ -79,7 +80,6 @@ git am -p1 %{patches} < /dev/null
 
 %install
 %meson_install
-find $RPM_BUILD_ROOT -name '*.la' -delete
 
 
 %post
