@@ -3,7 +3,7 @@
 DIRNAME=libratbag-$( date +%Y%m%d )
 
 rm -rf $DIRNAME
-git clone https://github.com/bentiss/libratbag $DIRNAME
+git clone https://github.com/libratbag/libratbag $DIRNAME
 cd $DIRNAME
 if [ -z "$1" ]; then
     git log | head -1

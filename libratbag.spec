@@ -18,7 +18,7 @@ Source0:        https://github.com/libratbag/%{name}/archive/v%{version}/%{name}
 %endif
 
 BuildRequires:  git
-BuildRequires:  autoconf automake libtool pkgconfig
+BuildRequires:  meson pkgconfig
 BuildRequires:  libevdev-devel
 BuildRequires:  libudev-devel
 BuildRequires:  pkgconfig(udev)
@@ -53,6 +53,10 @@ Requires:       liblur%{?_isa} = %{version}-%{release}
 The liblur-devel package contains libraries and header files for
 developing applications that use liblur.
 
+
+# hack until rhbz#1409661 gets fixed
+%{!?__global_cxxflags: %define __global_cxxflags %{optflags}}
+
 %prep
 %setup -q -n %{name}-%{?gitdate:%{gitdate}}%{!?gitdate:%{version}}
 git init
@@ -67,15 +71,14 @@ git commit --allow-empty -a -q -m "%{version} baseline."
 git am -p1 %{patches} < /dev/null
 
 %build
-autoreconf -v --install --force || exit 1
-%configure --disable-static --with-udev-base-dir=%{udevdir} --enable-tests=no
-make %{?_smp_mflags}
+%meson
+%meson_build
 
 %check
-make check
+%meson_test
 
 %install
-%make_install
+%meson_install
 find $RPM_BUILD_ROOT -name '*.la' -delete
 
 
