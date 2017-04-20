@@ -4,8 +4,8 @@
 # global gitversion e514da82
 
 Name:           libratbag
-Version:        0.6
-Release:        5%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
+Version:        0.7
+Release:        1%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 Summary:        Programmable input device library
 License:        MIT
 URL:            https://github.com/libratbag/libratbag
@@ -118,6 +118,11 @@ udevadm hwdb --update >/dev/null 2>&1 || :
 %{_libdir}/pkgconfig/liblur.pc
 
 %changelog
+* Thu Apr 20 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.7-1
+- libratbag v0.7
+- switch to meson
+- re-enable the tests
+
 * Tue Apr 04 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-5
 - disable the tests
 
