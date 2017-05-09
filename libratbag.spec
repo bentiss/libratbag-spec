@@ -1,28 +1,18 @@
 %global udevdir %(pkg-config --variable=udevdir udev)
 
-# global gitdate 20150917
-# global gitversion e514da82
-
 Name:           libratbag
-Version:        0.7
+Version:        0.8
 Release:        1%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 Summary:        Programmable input device library
 License:        MIT
 URL:            https://github.com/libratbag/libratbag
-%if 0%{?gitdate}
-Source0:        %{name}-%{gitdate}.tar.xz
-Source1:        make-git-snapshot.sh
-Source2:        commitid
-%else
 Source0:        https://github.com/libratbag/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
-%endif
 
 BuildRequires:  git
 BuildRequires:  meson pkgconfig
 BuildRequires:  libevdev-devel
 BuildRequires:  libudev-devel
 BuildRequires:  pkgconfig(udev)
-BuildRequires:  doxygen graphviz
 BuildRequires:  check-devel
 
 %description
@@ -54,25 +44,14 @@ Requires:       liblur%{?_isa} = %{version}-%{release}
 The liblur-devel package contains libraries and header files for
 developing applications that use liblur.
 
+%prep
+%autosetup
 
 # hack until rhbz#1409661 gets fixed
 %{!?__global_cxxflags: %define __global_cxxflags %{optflags}}
 
-%prep
-%setup -q -n %{name}-%{?gitdate:%{gitdate}}%{!?gitdate:%{version}}
-git init
-if [ -z "$GIT_COMMITTER_NAME" ]; then
-    git config user.email "x@fedoraproject.org"
-    git config user.name "Fedora X Ninjas"
-fi
-git add .
-git commit --allow-empty -a -q -m "%{version} baseline."
-
-# Apply all the patches.
-git am -p1 %{patches} < /dev/null
-
 %build
-%meson -Dudev-dir=%{udevdir}
+%meson -Dudev-dir=%{udevdir} -Denable-documentation=false
 %meson_build
 
 %check
@@ -118,43 +97,14 @@ udevadm hwdb --update >/dev/null 2>&1 || :
 %{_libdir}/pkgconfig/liblur.pc
 
 %changelog
-* Thu Apr 20 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.7-1
-- libratbag v0.7
-- switch to meson
-- re-enable the tests
+* Tue May 09 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.8-1
+- libratbag v0.8
 
-* Tue Apr 04 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-5
-- disable the tests
+* Tue May 09 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.7-3
+- add a hack for F24 and F25 to compile
 
-* Tue Apr 04 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-4
-- Add check too
+* Fri May 05 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.7-2
+- Remove the generation of the documentation, we don't ship it
 
-* Tue Apr 04 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-3
-- Add graphviz too
-
-* Tue Apr 04 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-2
-- Force doxygen as a requirement
-
-* Wed Mar 22 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.6-1
-- libratbag v0.6
-
-* Fri Sep 16 2016 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.5-1
-- libratbag v0.5
-
-* Mon Mar 14 2016 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.4-1
-- libratbag v0.4
-
-* Sat Mar 12 2016 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.3-5
-- Bump the specfile for the autobuilder tests
-
-* Sat Mar 12 2016 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.3-4
-- Bump the specfile for the autobuilder tests
-
-* Sat Mar 12 2016 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.3-3
-- Bump the specfile for the autobuilder tests
-
-* Sat Mar 12 2016 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.3-2
-- Bump the specfile for the autobuilder tests
-
-* Tue Mar 08 2016 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.3-1
-- Initial Fedora packaging
+* Thu May 04 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.7-1
+- Initial Fedora packaging (rhbz#1309703)
