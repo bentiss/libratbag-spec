@@ -1,7 +1,7 @@
 %global udevdir %(pkg-config --variable=udevdir udev)
 
 Name:           libratbag
-Version:        0.8
+Version:        0.9
 Release:        1%{?gitdate:.%{gitdate}git%{gitversion}}%{?dist}
 Summary:        Programmable input device library
 License:        MIT
@@ -80,6 +80,7 @@ udevadm hwdb --update >/dev/null 2>&1 || :
 %{udevdir}/rules.d/70-libratbag-mouse.rules
 %{udevdir}/hwdb.d/70-libratbag-mouse.hwdb
 %{_mandir}/man1/ratbag-command.1*
+%{_mandir}/man1/lur-command.1*
 
 %files devel
 %{_includedir}/libratbag.h
@@ -97,6 +98,10 @@ udevadm hwdb --update >/dev/null 2>&1 || :
 %{_libdir}/pkgconfig/liblur.pc
 
 %changelog
+* Tue Jun 06 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.9-1
+- libratbag v0.9
+- new manpage for lur-command
+
 * Tue May 09 2017 Benjamin Tissoires <benjamin.tissoires@redhat.com> 0.8-1
 - libratbag v0.8
 
